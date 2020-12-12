@@ -18,7 +18,7 @@ const App = () => {
     <>
       <Layout className="main-container">
         <Header className="nav-bar">
-          HEADER
+          READ BEFORE IT EXPLODES
         </Header>
 
         <Layout>
