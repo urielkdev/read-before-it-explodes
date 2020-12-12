@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Button, Input, Layout, Row } from 'antd'
 import { SendOutlined } from '@ant-design/icons'
-import { ChatProps, Message } from '../types';
+import { ChatProps, Message } from '../util/types';
 
 
 export const Chat: React.FC<ChatProps> = ({ contacts, selectedContactIndex }) => {
@@ -10,6 +10,11 @@ export const Chat: React.FC<ChatProps> = ({ contacts, selectedContactIndex }) =>
     const bottomDiv = useRef<HTMLDivElement>(null);
 
     const [typeText, setTypeText] = useState('');
+
+    // TODO: change this when use the backend to retreive the messages, then scroll
+    useEffect(() => {
+        bottomDiv.current?.scrollIntoView()
+    }, [selectedContactIndex])
 
     const sendText = async () => {
         if (!typeText.length) return
@@ -20,10 +25,6 @@ export const Chat: React.FC<ChatProps> = ({ contacts, selectedContactIndex }) =>
         bottomDiv.current?.scrollIntoView({ behavior: 'smooth' })
     }
 
-    // TODO: change this when use the backend to retreive the messages, then scroll
-    useEffect(() => {
-        bottomDiv.current?.scrollIntoView()
-    }, [selectedContactIndex])
 
     return (
         <Layout>

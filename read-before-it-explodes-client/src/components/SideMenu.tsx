@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Layout, Menu } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { SideMenuProps } from '../types';
+import { SideMenuProps } from '../util/types';
 
 export const SideMenu: React.FC<SideMenuProps> = ({ contacts, setSelectedContactIndex }) => {
     const { Sider } = Layout;

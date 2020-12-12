@@ -1,6 +1,5 @@
 import { Contact } from "./types";
 
-
 export const contacts: Contact[] = [
     {
         username: 'ronald',
