@@ -1,8 +1,20 @@
-export interface ChatProps { menuItem: string | null }
+export interface ChatProps {
+    contacts: Contact[],
+    selectedContactIndex: number | null
+}
 
-export interface SideMenuProps { setMenuItem: (menuItem: string) => void }
+export interface SideMenuProps {
+    contacts: Contact[]
+    setSelectedContactIndex: (index: number) => void
+}
 
 export interface Message {
     me: boolean,
-    text: string
+    text: string,
+    date: string
+}
+
+export interface Contact {
+    username: string,
+    messages: Message[]
 }

@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Layout, Menu } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { SideMenuProps } from '../types';
 
-export const SideMenu: React.FC<SideMenuProps> = ({ setMenuItem }) => {
+export const SideMenu: React.FC<SideMenuProps> = ({ contacts, setSelectedContactIndex }) => {
     const { Sider } = Layout;
-    const menuItems = ['Ronald', 'Matt', 'Larissa']
 
+    useEffect(() => setSelectedContactIndex(0), [])
     return (
         <Sider
             breakpoint="xs"
@@ -21,12 +21,12 @@ export const SideMenu: React.FC<SideMenuProps> = ({ setMenuItem }) => {
             <Menu
                 theme="dark" mode="inline"
                 defaultSelectedKeys={[]}
-                onClick={({ key }) => setMenuItem(menuItems[key as number])}
+                onClick={({ key }) => setSelectedContactIndex(key as number)}
             >
                 {
-                    menuItems.map((item, index) =>
+                    contacts.map((contact, index) =>
                         <Menu.Item key={index} icon={<UserOutlined />}>
-                            {item}
+                            {contact.username}
                         </Menu.Item>
                     )
                 }
