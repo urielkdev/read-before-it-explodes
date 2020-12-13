@@ -1,10 +1,15 @@
 export interface Message {
-    me: boolean,
-    text: string,
+    username: string,
+    message: string,
     date: string
 }
 
 export interface Contact {
-    username: string,
+    username: string
+}
+
+export interface Chat {
+    contact: Contact,
     messages: Message[]
 }
+

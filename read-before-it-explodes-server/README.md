@@ -24,15 +24,17 @@ route getChats - given `user_id`
     ```
     {
         chats: [
-            contact: { username: string},
-            messages: [
-                {
-                    me: boolean,
-                    message: string,
-                    date: string
-                },
-                ...
-            ],
+            {
+                contact: { username: string },
+                messages: [
+                    {
+                        username: string,
+                        message: string,
+                        date: string
+                    },
+                    ...
+            }
+        ],
             ...
         ]
     }
