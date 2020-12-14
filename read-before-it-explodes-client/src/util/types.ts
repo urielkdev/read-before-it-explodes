@@ -1,25 +1,36 @@
+// PROPS
+export interface LoginProps {
+  setUsername: React.Dispatch<React.SetStateAction<string>>
+}
+
+export interface MainPageProps {
+  username: string
+}
+
 export interface ChatProps {
-    username: string,
-    chat: Chat | null,
-    socket: SocketIOClient.Socket
+  username: string,
+  chat: Chat | null,
+  socket: SocketIOClient.Socket
 }
 
 export interface SideMenuProps {
-    contacts: Contact[]
-    setSelectedChatIndex: (index: number) => void
+  contacts: Contact[]
+  setSelectedChatIndex: (index: number) => void
 }
 
+
+// GENERAL TYPES
 export interface Message {
-    username: string,
-    message: string,
-    date: string
+  username: string,
+  message: string,
+  date: string
 }
 
 export interface Contact {
-    username: string
+  username: string
 }
 
 export interface Chat {
-    contact: Contact,
-    messages: Message[]
+  contact: Contact,
+  messages: Message[]
 }
