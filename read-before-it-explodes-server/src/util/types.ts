@@ -1,16 +1,16 @@
 export interface Message {
-    username: string,
-    message: string,
-    date: string
+  username: string,
+  message: string,
+  date: string
 }
 
 export interface Contact {
-    username: string
+  username: string
 }
 
 export interface Chat {
-    contact: Contact,
-    messages: Message[]
+  contact: Contact,
+  messages: Message[]
 }
 
 
@@ -18,6 +18,6 @@ export interface Chat {
 // Socket params interfaces
 
 export interface SocketSendMessage {
-    to: string,
-    message: Message
+  to: string,
+  message: Message
 }
