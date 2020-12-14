@@ -13,3 +13,11 @@ export interface Chat {
     messages: Message[]
 }
 
+
+
+// Socket params interfaces
+
+export interface SocketSendMessage {
+    to: string,
+    message: Message
+}
