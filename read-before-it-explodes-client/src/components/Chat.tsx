@@ -4,7 +4,7 @@ import { SendOutlined } from '@ant-design/icons'
 import { ChatProps, Message } from '../util/types';
 
 
-export const Chat: React.FC<ChatProps> = ({ contacts, selectedContactIndex }) => {
+export const Chat: React.FC<ChatProps> = ({ username, chat, socket }) => {
 
     const { Content, Footer } = Layout;
     const bottomDiv = useRef<HTMLDivElement>(null);
@@ -14,13 +14,14 @@ export const Chat: React.FC<ChatProps> = ({ contacts, selectedContactIndex }) =>
     // TODO: change this when use the backend to retreive the messages, then scroll
     useEffect(() => {
         bottomDiv.current?.scrollIntoView()
-    }, [selectedContactIndex])
+    }, [chat])
 
     const sendText = async () => {
         if (!typeText.length) return
 
         // TODO: send the message to API
         // api.sendMessage([...chatMessages, { me: true, text: typeText, date: Date.now().toString() }])
+        socket.emit('send-message', { to: chat?.contact.username, message: typeText })
         setTypeText('')
         bottomDiv.current?.scrollIntoView({ behavior: 'smooth' })
     }
@@ -30,12 +31,12 @@ export const Chat: React.FC<ChatProps> = ({ contacts, selectedContactIndex }) =>
         <Layout>
             <Content className="chat-container">
                 <div className="messages-container" style={{ overflow: 'auto' }}>
-                    {selectedContactIndex ? contacts[selectedContactIndex].messages.map((message: Message, idx) =>
-                        <Row key={idx} justify={message.me ? 'end' : 'start'}>
-                            <div className={`talk-bubble tri-right btm-${message.me ? 'right' : 'left'}`}>
+                    {chat ? chat.messages.map((message: Message, idx) =>
+                        <Row key={idx} justify={message.username === username ? 'end' : 'start'}>
+                            <div className={`talk-bubble tri-right btm-${message.username === username ? 'right' : 'left'}`}>
                                 <div className="talktext">
                                     <p>
-                                        {message.text}
+                                        {message.message}
                                     </p>
                                 </div>
                             </div>
