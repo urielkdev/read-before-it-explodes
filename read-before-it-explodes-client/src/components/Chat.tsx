@@ -1,17 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Button, Input, Layout, Row } from 'antd'
 import { SendOutlined } from '@ant-design/icons'
-import { ChatProps, Message } from '../util/types';
+import { ChatProps, Message } from '../util/types'
 
 
 export const Chat: React.FC<ChatProps> = ({ username, chat, socket }) => {
 
-    const { Content, Footer } = Layout;
-    const bottomDiv = useRef<HTMLDivElement>(null);
+    const { Content, Footer } = Layout
+    const bottomDiv = useRef<HTMLDivElement>(null)
 
-    const [typeText, setTypeText] = useState('');
+    const [typeText, setTypeText] = useState('')
 
-    // TODO: change this when use the backend to retreive the messages, then scroll
     useEffect(() => {
         bottomDiv.current?.scrollIntoView()
     }, [chat])
@@ -19,13 +18,19 @@ export const Chat: React.FC<ChatProps> = ({ username, chat, socket }) => {
     const sendText = async () => {
         if (!typeText.length) return
 
-        // TODO: send the message to API
-        // api.sendMessage([...chatMessages, { me: true, text: typeText, date: Date.now().toString() }])
-        socket.emit('send-message', { to: chat?.contact.username, message: typeText })
+        const message: Message = {
+            username,
+            message: typeText,
+            date: Date.now().toString()
+        }
+
+        socket.emit('send-message', {
+            to: chat?.contact.username,
+            message
+        })
         setTypeText('')
         bottomDiv.current?.scrollIntoView({ behavior: 'smooth' })
     }
-
 
     return (
         <Layout>
@@ -56,5 +61,5 @@ export const Chat: React.FC<ChatProps> = ({ username, chat, socket }) => {
                 />
             </Footer>
         </Layout>
-    );
+    )
 }

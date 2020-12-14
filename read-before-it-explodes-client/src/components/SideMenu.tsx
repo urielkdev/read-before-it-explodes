@@ -1,27 +1,26 @@
-import React, { useEffect } from 'react'
-import { Layout, Menu } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
-import { SideMenuProps } from '../util/types';
+import React from 'react'
+import { Layout, Menu } from 'antd'
+import { UserOutlined } from '@ant-design/icons'
+import { SideMenuProps } from '../util/types'
 
-export const SideMenu: React.FC<SideMenuProps> = ({ contacts, setSelectedContactIndex }) => {
-    const { Sider } = Layout;
+export const SideMenu: React.FC<SideMenuProps> = ({ contacts, setSelectedChatIndex }) => {
+    const { Sider } = Layout
 
-    useEffect(() => setSelectedContactIndex(0), [])
     return (
         <Sider
             breakpoint="xs"
             collapsedWidth="0"
             onBreakpoint={broken => {
-                console.log(broken);
+                console.log(broken)
             }}
             onCollapse={(collapsed, type) => {
-                console.log(collapsed, type);
+                console.log(collapsed, type)
             }}
         >
             <Menu
                 theme="dark" mode="inline"
                 defaultSelectedKeys={[]}
-                onClick={({ key }) => setSelectedContactIndex(key as number)}
+                onClick={({ key }) => setSelectedChatIndex(key as number)}
             >
                 {
                     contacts.map((contact, index) =>
@@ -32,5 +31,5 @@ export const SideMenu: React.FC<SideMenuProps> = ({ contacts, setSelectedContact
                 }
             </Menu>
         </Sider>
-    );
+    )
 }

@@ -6,7 +6,7 @@ export interface ChatProps {
 
 export interface SideMenuProps {
     contacts: Contact[]
-    setSelectedContactIndex: (index: number) => void
+    setSelectedChatIndex: (index: number) => void
 }
 
 export interface Message {

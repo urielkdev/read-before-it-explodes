@@ -2,34 +2,34 @@ import React, { useEffect, useState } from 'react'
 import { Button, Col, Input, Layout, Row } from 'antd'
 
 import { SideMenu } from './components/SideMenu'
-import { Chat as ChatComponent } from './components/Chat';
+import { Chat as ChatComponent } from './components/Chat'
 
-import { Chat } from './util/types';
-import { chats as fakeChats } from './util/fakeMessages';
-import io from "socket.io-client";
-
+import { Chat } from './util/types'
+import io from "socket.io-client"
 
 
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.css'
 import './index.css'
 
-const socket = io("http://localhost:4000");
-socket.on('connection', () => console.log('tst2'))
-socket.on('disconnect', () => console.log('tst4'))
-socket.on('hi', () => console.log('hi'))
+const socket = io("http://localhost:4000")
 
 const App = () => {
-  const { Header } = Layout;
+  const { Header } = Layout
 
   const [username, setUsername] = useState<string>('')
   const [chats, setChats] = useState<Chat[]>([])
   const [selectedChatIndex, setSelectedChatIndex] = useState<number | null>(null)
 
   useEffect(() => {
-    console.log('once')
-    setChats(fakeChats)
-
+    socket.on('connect', () => console.log('socket connect'))
+    socket.on('disconnect', () => console.log('socket disconnect'))
+    socket.on('receive-chats', (receivedChats: Chat[]) => {
+      console.log(`receive-chats`)
+      console.log(receivedChats)
+      setChats(receivedChats)
+    })
   }, [])
+
 
   const sendUsernameToSocket = () => {
     if (!username.length) return
@@ -60,7 +60,7 @@ const App = () => {
         <Layout>
           <SideMenu
             contacts={chats.map(({ contact }) => contact)}
-            setSelectedContactIndex={(index: number) => setSelectedChatIndex(index)}
+            setSelectedChatIndex={(index: number) => setSelectedChatIndex(index)}
           />
           <ChatComponent
             chat={selectedChatIndex ? chats[selectedChatIndex] : null}
@@ -73,4 +73,4 @@ const App = () => {
   )
 }
 
-export default App;
+export default App
