@@ -1,14 +1,16 @@
 import React from 'react'
-import { Layout, Menu } from 'antd'
-import { UserOutlined } from '@ant-design/icons'
 import { SideMenuProps } from '../util/types'
+import { Button, Layout, Menu } from 'antd'
+import { LogoutOutlined, UserOutlined } from '@ant-design/icons'
+
+import './side-menu.css'
 
 const SideMenu: React.FC<SideMenuProps> = ({ contacts, setSelectedChatIndex }) => {
-  const { Sider } = Layout
+  const { Content, Footer, Sider } = Layout
 
   return (
     <Sider
-      breakpoint="xs"
+      breakpoint="md"
       collapsedWidth="0"
       onBreakpoint={broken => {
         console.log(broken)
@@ -17,19 +19,28 @@ const SideMenu: React.FC<SideMenuProps> = ({ contacts, setSelectedChatIndex }) =
         console.log(collapsed, type)
       }}
     >
-      <Menu
-        theme="dark" mode="inline"
-        defaultSelectedKeys={[]}
-        onClick={({ key }) => setSelectedChatIndex(key as number)}
-      >
-        {
-          contacts.map((contact, index) =>
-            <Menu.Item key={index} icon={<UserOutlined />}>
-              {contact.username}
-            </Menu.Item>
-          )
-        }
-      </Menu>
+      <Layout className="layout-content">
+        <Content className="menu-container">
+          <Menu
+            theme="dark" mode="inline"
+            defaultSelectedKeys={[]}
+            onClick={({ key }) => setSelectedChatIndex(key as number)}
+          >
+            {
+              contacts.map((contact, index) =>
+                <Menu.Item key={index} icon={<UserOutlined />}>
+                  {contact.username}
+                </Menu.Item>
+              )
+            }
+          </Menu>
+        </Content>
+        <Footer className="footer">
+          <Button block icon={<LogoutOutlined />}>
+            Logout
+            </Button>
+        </Footer>
+      </Layout>
     </Sider>
   )
 }

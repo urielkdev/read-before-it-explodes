@@ -1,20 +1,66 @@
 import React from 'react'
-import { LoginProps } from '../util/types'
+import { LoginForm, LoginProps } from '../util/types'
 import { useHistory } from 'react-router-dom'
+import { Button, Card, Checkbox, Col, Form, Input, Row } from 'antd'
 
+import './login.css'
 
 const Login: React.FC<LoginProps> = ({ setUsername }) => {
 
 
   let history = useHistory()
-  const navigateToMainPage = async () => {
+
+  const onFinish = async ({ username, remember }: LoginForm) => {
+    console.log('Successz:', username)
+    if (remember) localStorage.setItem('username', username)
+    setUsername(username)
+
     history.replace("/")
   }
 
+  const onFinishFailed = () => {
+    console.log('Failed:')
+  }
+
   return (
-    <div>
-      <button onClick={navigateToMainPage}>navigateToMainPage</button>
-    </div>
+    <Row justify="center" className="full-height">
+      <Col xs={{ span: 22 }} md={{ span: 10 }} xl={{ span: 6 }} xxl={{ span: 5 }} className="col">
+        <Card title="LOGIN" className="card">
+          <Form
+            name="basic"
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+          >
+            <Form.Item
+              label="Username"
+              name="username"
+              rules={[{ required: true, message: 'Please input your username!' }]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              label="Password"
+              name="password"
+              rules={[{ required: true, message: 'Please input your password!' }]}
+            >
+              <Input.Password />
+            </Form.Item>
+
+            <Form.Item name="remember" valuePropName="checked">
+              <Checkbox>Remember me</Checkbox>
+            </Form.Item>
+
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Submit
+            </Button>
+            </Form.Item>
+          </Form>
+        </Card>
+      </Col>
+    </Row >
   )
 }
 

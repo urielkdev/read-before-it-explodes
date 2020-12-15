@@ -4,7 +4,8 @@ export interface LoginProps {
 }
 
 export interface MainPageProps {
-  username: string
+  username: string,
+  setUsername: React.Dispatch<React.SetStateAction<string>>
 }
 
 export interface ChatProps {
@@ -33,4 +34,10 @@ export interface Contact {
 export interface Chat {
   contact: Contact,
   messages: Message[]
+}
+
+export interface LoginForm {
+  username: string,
+  password: string,
+  remember: boolean
 }

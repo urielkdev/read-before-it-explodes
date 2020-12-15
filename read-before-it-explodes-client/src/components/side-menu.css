@@ -1,0 +1,12 @@
+.layout-content {
+  height: 100%;
+  background: transparent !important;
+}
+
+.menu-container {
+  overflow: auto !important;
+}
+
+.footer {
+  background: #fff !important;
+}

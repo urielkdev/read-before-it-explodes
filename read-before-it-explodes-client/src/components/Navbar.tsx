@@ -1,6 +1,8 @@
 import React from 'react'
 import { Layout } from 'antd'
 
+import './navbar.css'
+
 const Navbar: React.FC = () => {
   const { Header } = Layout
 

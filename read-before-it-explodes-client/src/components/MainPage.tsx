@@ -9,15 +9,11 @@ import ChatComponent from './Chat'
 
 const socket = io('localhost:4000')
 
-
-const MainPage: React.FC<MainPageProps> = ({ username }) => {
+const MainPage: React.FC<MainPageProps> = ({ username, setUsername }) => {
   const [chats, setChats] = useState<Chat[]>([])
   const [selectedChatIndex, setSelectedChatIndex] = useState<number | null>(null)
 
-  // let history = useHistory()
-  // const navigateToLogin = async () => {
-  //   history.replace("/login")
-  // }
+  let history = useHistory()
 
   useEffect(() => {
     socket.on('connect', () => console.log('socket connect'))
@@ -28,7 +24,12 @@ const MainPage: React.FC<MainPageProps> = ({ username }) => {
       setChats(receivedChats)
     })
 
-    // if (!localStorage.getItem('username')) getStoredUsername()
+    const storedUsername = localStorage.getItem('username')
+    console.log('storedUsername: ', storedUsername)
+    if (storedUsername) {
+      setUsername(storedUsername)
+      socket.emit('set-username', 'uriel')
+    } else history.replace("/login")
   }, [])
 
   return (

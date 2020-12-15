@@ -4,6 +4,8 @@ import { SendOutlined } from '@ant-design/icons'
 import { ChatProps, Message } from '../util/types'
 import { useHistory } from 'react-router-dom'
 
+import './chat.css'
+
 
 const Chat: React.FC<ChatProps> = ({ username, chat, socket }) => {
 

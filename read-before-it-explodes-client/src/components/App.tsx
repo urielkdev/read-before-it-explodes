@@ -7,7 +7,7 @@ import Navbar from './Navbar'
 import MainPage from './MainPage'
 
 import 'antd/dist/antd.css'
-import '../index.css'
+import './app.css'
 
 const App = () => {
   const [username, setUsername] = useState<string>('')
@@ -24,7 +24,7 @@ const App = () => {
             </Route>
             <Route path="/">
               {console.log('MAINPAGE')}
-              <MainPage username={username} />
+              <MainPage username={username} setUsername={setUsername} />
             </Route>
           </Switch>
         </Router>
