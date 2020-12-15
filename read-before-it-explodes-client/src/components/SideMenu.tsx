@@ -2,11 +2,19 @@ import React from 'react'
 import { SideMenuProps } from '../util/types'
 import { Button, Layout, Menu } from 'antd'
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons'
+import { useHistory } from 'react-router-dom'
 
 import './side-menu.css'
 
-const SideMenu: React.FC<SideMenuProps> = ({ contacts, setSelectedChatIndex }) => {
+const SideMenu: React.FC<SideMenuProps> = ({ contacts, setSelectedChatIndex, setUsername }) => {
   const { Content, Footer, Sider } = Layout
+  const history = useHistory()
+
+  const logout = () => {
+    setUsername('')
+    localStorage.setItem('username', '')
+    history.replace('/login')
+  }
 
   return (
     <Sider
@@ -36,7 +44,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ contacts, setSelectedChatIndex }) =
           </Menu>
         </Content>
         <Footer className="footer">
-          <Button block icon={<LogoutOutlined />}>
+          <Button block icon={<LogoutOutlined />} onClick={logout}>
             Logout
             </Button>
         </Footer>

@@ -6,15 +6,11 @@ import { Button, Card, Checkbox, Col, Form, Input, Row } from 'antd'
 import './login.css'
 
 const Login: React.FC<LoginProps> = ({ setUsername }) => {
-
-
   let history = useHistory()
 
-  const onFinish = async ({ username, remember }: LoginForm) => {
-    console.log('Successz:', username)
-    if (remember) localStorage.setItem('username', username)
+  const onFinish = async ({ username }: LoginForm) => {
     setUsername(username)
-
+    localStorage.setItem('username', username)
     history.replace("/")
   }
 

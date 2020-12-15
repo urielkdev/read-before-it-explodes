@@ -19,11 +19,9 @@ const App = () => {
         <Router>
           <Switch>
             <Route path="/login">
-              {console.log('LOGIN')}
               <Login setUsername={setUsername} />
             </Route>
             <Route path="/">
-              {console.log('MAINPAGE')}
               <MainPage username={username} setUsername={setUsername} />
             </Route>
           </Switch>

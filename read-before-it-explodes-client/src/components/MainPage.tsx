@@ -14,8 +14,8 @@ const MainPage: React.FC<MainPageProps> = ({ username, setUsername }) => {
   const [selectedChatIndex, setSelectedChatIndex] = useState<number | null>(null)
 
   let history = useHistory()
-
   useEffect(() => {
+    socket.removeAllListeners()
     socket.on('connect', () => console.log('socket connect'))
     socket.on('disconnect', () => console.log('socket disconnect'))
     socket.on('receive-chats', (receivedChats: Chat[]) => {
@@ -26,17 +26,20 @@ const MainPage: React.FC<MainPageProps> = ({ username, setUsername }) => {
 
     const storedUsername = localStorage.getItem('username')
     console.log('storedUsername: ', storedUsername)
-    if (storedUsername) {
-      setUsername(storedUsername)
-      socket.emit('set-username', 'uriel')
-    } else history.replace("/login")
-  }, [])
+    if (storedUsername) setUsername(storedUsername)
+    else history.replace("/login")
+  }, [history, setUsername])
+
+  useEffect(() => {
+    if (username) socket.emit('set-username', username)
+  }, [username])
 
   return (
     <Layout>
       <SideMenu
+        setUsername={setUsername}
         contacts={chats.map(({ contact }) => contact)}
-        setSelectedChatIndex={(index: number) => setSelectedChatIndex(index)}
+        setSelectedChatIndex={setSelectedChatIndex}
       />
       <ChatComponent
         chat={selectedChatIndex ? chats[selectedChatIndex] : null}

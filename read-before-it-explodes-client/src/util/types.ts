@@ -16,7 +16,8 @@ export interface ChatProps {
 
 export interface SideMenuProps {
   contacts: Contact[]
-  setSelectedChatIndex: (index: number) => void
+  setSelectedChatIndex: React.Dispatch<React.SetStateAction<number | null>>,
+  setUsername: React.Dispatch<React.SetStateAction<string>>
 }
 
 
@@ -38,6 +39,5 @@ export interface Chat {
 
 export interface LoginForm {
   username: string,
-  password: string,
-  remember: boolean
+  password: string
 }
