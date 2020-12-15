@@ -1,3 +1,17 @@
+## Setup
+- Install the dependencies:
+```
+yarn
+```
+
+## Run
+```
+yarn dev
+```
+
+
+## Future Plans
+
 Options:
 
 *Postgres
@@ -41,10 +55,12 @@ route getChats - given `user_id`
     ```
 
 *MongoDB () ? review later
-    user_id
-    |---username
-    |---chat   (duplicated ? review, maybe separate the user and the chat)
-        |---message
-        |---sender
-        |---date
-        |---deleted_at
+```
+  user_id
+  |-username
+  |-chat   (duplicated ? review, maybe separate the user and the chat)
+    |-message
+    |-sender
+    |-date
+    |-deleted_at
+```
