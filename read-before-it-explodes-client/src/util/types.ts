@@ -20,11 +20,12 @@ export interface SideMenuProps {
   setUsername: React.Dispatch<React.SetStateAction<string>>
 }
 
-
 // GENERAL TYPES
 export interface Message {
+  id: string,
   username: string,
   message: string,
+  time: number,
   date: string
 }
 

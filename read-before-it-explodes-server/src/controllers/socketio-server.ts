@@ -1,4 +1,4 @@
-import { Chat, SocketSendMessage } from '../util/types'
+import { Chat, Message, SocketSendMessage } from '../util/types'
 import { chats as fakeChats } from '../util/fakeChats'
 
 const socketIOServer = (server: any) => {
@@ -9,10 +9,35 @@ const socketIOServer = (server: any) => {
   let chatsUsers: { [key: string]: Chat[] } = fakeChats
 
   const emitChats = (socket: SocketIO.Socket, chats: Chat[]) => {
-    socket?.emit('receive-chats', chats)
+    const hiddenChats = chats.map(({ contact, messages }) => {
+      const hiddenMessages = messages.map(message => (
+        { ...message, message: !message.opened ? `${message.time} seconds` : message.message }
+      ))
+
+      return { contact, messages: hiddenMessages }
+    })
+    socket?.emit('receive-chats', hiddenChats)
   }
 
-  io.on('connection', (socket) => {
+  const openMessageById = (username: string, id: string) => {
+    chatsUsers[username] = chatsUsers[username].map(chat => (
+      {
+        ...chat,
+        messages: chat.messages.map(message => message.id === id ? { ...message, opened: true } : message)
+      }
+    ))
+  }
+
+  const deleteMessageById = (username: string, id: string) => {
+    chatsUsers[username] = chatsUsers[username].map(chat => (
+      {
+        ...chat,
+        messages: chat.messages.filter(message => message.id !== id)
+      }
+    ))
+  }
+
+  io.on('connection', socket => {
     console.log('a user connsd')
 
     socket.on('disconnect', () => {
@@ -20,7 +45,7 @@ const socketIOServer = (server: any) => {
       console.log('user disconnected')
     })
 
-    socket.on('set-username', (username) => {
+    socket.on('set-username', username => {
       console.log(`set-username: ${username}`)
       sockets[username] = socket
 
@@ -45,6 +70,21 @@ const socketIOServer = (server: any) => {
 
       emitChats(socket, chatsUsers[message.username])
       emitChats(sockets[to], chatsUsers[to])
+    })
+
+    // username of who is openning the message
+    socket.on('open-message', (username, message: Message) => {
+      openMessageById(username, message.id)
+      openMessageById(message.username, message.id)
+      emitChats(socket, chatsUsers[message.username])
+      emitChats(sockets[message.username], chatsUsers[message.username])
+
+      setTimeout(() => {
+        deleteMessageById(username, message.id)
+        deleteMessageById(message.username, message.id)
+        emitChats(socket, chatsUsers[message.username])
+        emitChats(sockets[message.username], chatsUsers[message.username])
+      }, message.time * 1000);
     })
   })
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import { Button, Input, Layout, Row } from 'antd'
 import { SendOutlined } from '@ant-design/icons'
 import { ChatProps, Message } from '../util/types'
+import { v4 as uuidv4 } from 'uuid'
 
 import './chat.css'
 
@@ -11,6 +12,7 @@ const Chat: React.FC<ChatProps> = ({ username, chat, socket }) => {
   const bottomDiv = useRef<HTMLDivElement>(null)
 
   const [typeText, setTypeText] = useState('')
+  const [time, setTime] = useState(5)
 
   useEffect(() => {
     bottomDiv.current?.scrollIntoView()
@@ -21,8 +23,10 @@ const Chat: React.FC<ChatProps> = ({ username, chat, socket }) => {
     if (!typeText.length) return
 
     const message: Message = {
+      id: uuidv4(),
       username,
       message: typeText,
+      time,
       date: Date.now().toString()
     }
 
@@ -34,13 +38,23 @@ const Chat: React.FC<ChatProps> = ({ username, chat, socket }) => {
     bottomDiv.current?.scrollIntoView({ behavior: 'smooth' })
   }
 
+  const openMessage = (message: Message) => {
+    if (message.username !== username) {
+      console.log(`open message with id: ${message.id}`)
+      socket.emit('open-message', username, message)
+    }
+  }
+
   return (
     <Layout>
       <Content className="chat-container">
         <div className="messages-container" style={{ overflow: 'auto' }}>
           {chat ? chat.messages.map((message: Message, idx) =>
             <Row key={idx} justify={message.username === username ? 'end' : 'start'}>
-              <div className={`talk-bubble tri-right btm-${message.username === username ? 'right' : 'left'}`}>
+              <div
+                className={`talk-bubble tri-right btm-${message.username === username ? 'right' : 'left'}`}
+                onClick={() => openMessage(message)}
+              >
                 <div className="talktext">
                   <p>
                     {message.message}

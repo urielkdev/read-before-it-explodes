@@ -1,7 +1,10 @@
 export interface Message {
+  id: string,
   username: string,
   message: string,
-  date: string
+  time: number,
+  date: string,
+  opened: boolean
 }
 
 export interface Contact {
