@@ -4,6 +4,8 @@ import { chats as fakeChats } from '../util/fakeChats'
 const socketIOServer = (server: any) => {
   const io: SocketIO.Server = require('socket.io')(server)
 
+  const fadeOutTime = 0.2
+
   let sockets: { [key: string]: SocketIO.Socket } = {}
 
   let chatsUsers: { [key: string]: Chat[] } = fakeChats
@@ -84,7 +86,7 @@ const socketIOServer = (server: any) => {
         deleteMessageById(message.username, message.id)
         emitChats(socket, chatsUsers[message.username])
         emitChats(sockets[message.username], chatsUsers[message.username])
-      }, message.time * 1000);
+      }, (message.time + fadeOutTime) * 1000);
     })
   })
 }
