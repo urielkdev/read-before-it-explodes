@@ -11,4 +11,4 @@
 - [ ] Persist the messages in database
 - [ ] Register user
 - [ ] Login with users in database
-- [ ] Hide the message and explode when read
+- [x] Fade out the message when read
