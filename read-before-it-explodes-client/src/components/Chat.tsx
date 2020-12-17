@@ -1,23 +1,22 @@
-import React, { useEffect, useState, useRef, createRef } from 'react'
-import { Button, Input, Layout, Row } from 'antd'
-import { SendOutlined } from '@ant-design/icons'
+import React, { useEffect, useState, useRef } from 'react'
+import { Button, Col, Input, Layout, Row, Select } from 'antd'
+import { ClockCircleOutlined, SendOutlined } from '@ant-design/icons'
 import { ChatProps, Message } from '../util/types'
 import { v4 as uuidv4 } from 'uuid'
 
 import './chat.css'
 
 const Chat: React.FC<ChatProps> = ({ username, chat, socket }) => {
-
   const { Content, Footer } = Layout
-  const fadeOutTime = 0.5;
-  const bottomDiv = useRef<HTMLDivElement>(null)
+  const { Option } = Select
 
+  const bottomDiv = useRef<HTMLDivElement>(null)
   const messageDivs = useRef<{ [key: string]: any }>({})
 
   const [typeText, setTypeText] = useState('')
 
-  // TODO: some input in the footer to set the time
   const [time, setTime] = useState(5)
+  const timeOptions = [3, 5, 8, 10, 15, 20, 30, 60]
 
   useEffect(() => {
     bottomDiv.current?.scrollIntoView()
@@ -27,7 +26,7 @@ const Chat: React.FC<ChatProps> = ({ username, chat, socket }) => {
         if (message.opened)
           setTimeout(() => {
             messageDivs.current[message.id]?.classList.add("fade-out")
-          }, (message.time - fadeOutTime) * 1000);
+          }, message.time * 1000);
       })
   }, [chat])
 
@@ -38,7 +37,7 @@ const Chat: React.FC<ChatProps> = ({ username, chat, socket }) => {
       id: uuidv4(),
       username,
       message: typeText,
-      time: time + fadeOutTime,
+      time: time,
       date: Date.now().toString()
     }
 
@@ -80,16 +79,33 @@ const Chat: React.FC<ChatProps> = ({ username, chat, socket }) => {
           {/* {JSON.stringify(messageDivs)} */}
         </div>
       </Content>
-      <Footer className="type-container">
-        <Input placeholder="input search text"
-          disabled={chat ? false : true}
-          suffix={
-            <Button type="text" onClick={() => sendText()}><SendOutlined /></Button>
-          }
-          value={typeText}
-          onChange={({ target }) => setTypeText(target.value)}
-          onKeyPress={({ key }) => { if (key === 'Enter') sendText() }}
-        />
+      <Footer className="footer-content">
+        <Layout>
+          <Row>
+            <Col xs={{ span: 8 }} sm={{ span: 4 }} lg={{ span: 3 }} xxl={{ span: 2 }}>
+              <Select defaultValue={time} className="select-time" onSelect={(value) => setTime(value)}>
+                {
+                  timeOptions.map(timeOption => (
+                    <Option key={timeOption} value={timeOption}>
+                      <ClockCircleOutlined /> {timeOption}s
+                    </Option>
+                  ))
+                }
+              </Select>
+            </Col>
+            <Col xs={{ span: 16 }} sm={{ span: 20 }} lg={{ span: 21 }} xxl={{ span: 22 }}>
+              <Input placeholder="type a message   ;p"
+                disabled={chat ? false : true}
+                suffix={
+                  <Button type="text" onClick={() => sendText()}><SendOutlined /></Button>
+                }
+                value={typeText}
+                onChange={({ target }) => setTypeText(target.value)}
+                onKeyPress={({ key }) => { if (key === 'Enter') sendText() }}
+              />
+            </Col>
+          </Row>
+        </Layout>
       </Footer>
     </Layout>
   )
