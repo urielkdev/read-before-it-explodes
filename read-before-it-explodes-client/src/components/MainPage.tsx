@@ -19,13 +19,10 @@ const MainPage: React.FC<MainPageProps> = ({ username, setUsername }) => {
     socket.on('connect', () => console.log('socket connect'))
     socket.on('disconnect', () => console.log('socket disconnect'))
     socket.on('receive-chats', (receivedChats: Chat[]) => {
-      console.log(`receive-chats`)
-      console.log(receivedChats)
       setChats(receivedChats)
     })
 
     const storedUsername = localStorage.getItem('username')
-    console.log('storedUsername: ', storedUsername)
     if (storedUsername) setUsername(storedUsername)
     else history.replace("/login")
   }, [history, setUsername])

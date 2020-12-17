@@ -1,3 +1,10 @@
+.fade-out {
+  transition: transform 0.5s;
+  -ms-transform: scale(0); /* IE 9 */
+  -webkit-transform: scale(0); /* Safari 3-8 */
+  transform: scale(0); 
+}
+
 .chat-container {
   padding: 20px 20px 0px 20px;
 }

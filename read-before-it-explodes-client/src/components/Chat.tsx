@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, createRef } from 'react'
 import { Button, Input, Layout, Row } from 'antd'
 import { SendOutlined } from '@ant-design/icons'
 import { ChatProps, Message } from '../util/types'
@@ -9,14 +9,26 @@ import './chat.css'
 const Chat: React.FC<ChatProps> = ({ username, chat, socket }) => {
 
   const { Content, Footer } = Layout
+  const fadeOutTime = 0.5;
   const bottomDiv = useRef<HTMLDivElement>(null)
 
+  const messageDivs = useRef<{ [key: string]: any }>({})
+
   const [typeText, setTypeText] = useState('')
+
+  // TODO: some input in the footer to set the time
   const [time, setTime] = useState(5)
 
   useEffect(() => {
     bottomDiv.current?.scrollIntoView()
 
+    if (chat)
+      chat.messages.map(message => {
+        if (message.opened)
+          setTimeout(() => {
+            messageDivs.current[message.id]?.classList.add("fade-out")
+          }, (message.time - fadeOutTime) * 1000);
+      })
   }, [chat])
 
   const sendText = async () => {
@@ -26,7 +38,7 @@ const Chat: React.FC<ChatProps> = ({ username, chat, socket }) => {
       id: uuidv4(),
       username,
       message: typeText,
-      time,
+      time: time + fadeOutTime,
       date: Date.now().toString()
     }
 
@@ -52,6 +64,7 @@ const Chat: React.FC<ChatProps> = ({ username, chat, socket }) => {
           {chat ? chat.messages.map((message: Message, idx) =>
             <Row key={idx} justify={message.username === username ? 'end' : 'start'}>
               <div
+                ref={el => messageDivs.current[message.id] = el}
                 className={`talk-bubble tri-right btm-${message.username === username ? 'right' : 'left'}`}
                 onClick={() => openMessage(message)}
               >
@@ -64,6 +77,7 @@ const Chat: React.FC<ChatProps> = ({ username, chat, socket }) => {
             </Row>
           ) : null}
           <div ref={bottomDiv} />
+          {/* {JSON.stringify(messageDivs)} */}
         </div>
       </Content>
       <Footer className="type-container">
