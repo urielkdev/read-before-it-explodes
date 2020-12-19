@@ -1,4 +1,7 @@
 // PROPS
+export interface RegisterProps {
+}
+
 export interface LoginProps {
   setUsername: React.Dispatch<React.SetStateAction<string>>
 }
@@ -37,6 +40,11 @@ export interface Contact {
 export interface Chat {
   contact: Contact,
   messages: Message[]
+}
+
+export interface RegisterForm {
+  username: string,
+  password: string
 }
 
 export interface LoginForm {

@@ -3,9 +3,9 @@ import { LoginForm, LoginProps } from '../util/types'
 import { useHistory } from 'react-router-dom'
 import { Button, Card, Checkbox, Col, Form, Input, Row } from 'antd'
 
-import './login.css'
+import './login-page.css'
 
-const Login: React.FC<LoginProps> = ({ setUsername }) => {
+const LoginPage: React.FC<LoginProps> = ({ setUsername }) => {
   let history = useHistory()
 
   const onFinish = async ({ username }: LoginForm) => {
@@ -60,4 +60,4 @@ const Login: React.FC<LoginProps> = ({ setUsername }) => {
   )
 }
 
-export default Login
+export default LoginPage
