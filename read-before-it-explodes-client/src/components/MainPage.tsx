@@ -7,7 +7,8 @@ import { useHistory } from 'react-router-dom'
 import SideMenu from './SideMenu'
 import ChatComponent from './Chat'
 
-const socket = io('localhost:4000')
+const socket = io(process.env.REACT_APP_SOCKETIO_URL || 'localhost:4000')
+console.log(process.env.REACT_APP_SOCKETIO_URL, " dsallee")
 
 const MainPage: React.FC<MainPageProps> = ({ username, setUsername }) => {
   const [chats, setChats] = useState<Chat[]>([])
