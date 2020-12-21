@@ -6,7 +6,7 @@
    "password": "3791",
    "database": "rbie",
    "synchronize": true,
-   "logging": false,
+   "logging": true,
    "entities": [
       "src/entity/**/*.ts"
    ],

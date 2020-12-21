@@ -1,11 +1,13 @@
+import 'reflect-metadata'
 import * as express from 'express'
 import * as http from 'http'
 import socketIOServer from './controllers/socketio-server'
 import * as dotenv from 'dotenv'
+import { ApolloServer } from 'apollo-server-express'
+import { buildSchema } from 'type-graphql'
 import { createConnection } from "typeorm"
-import 'reflect-metadata'
 
-import { User } from "./entity/user";
+import { HelloWorldResolver } from './resolvers/HelloWorldResolver'
 
 (async () => {
   dotenv.config()
@@ -13,11 +15,16 @@ import { User } from "./entity/user";
   const server = http.createServer(app)
   socketIOServer(server)
 
-  const dbConnection = await createConnection()
+  await createConnection()
 
-  const user = new User()
-  user.username = 'testeuser'
-  dbConnection.manager.save(user)
+  const apolloServer = new ApolloServer({
+    schema: await buildSchema({
+      resolvers: [HelloWorldResolver]
+    }),
+    context: ({ req, res }) => ({ req, res })
+  })
+
+  apolloServer.applyMiddleware({ app, cors: false })
 
   server.listen(process.env.API_PORT || 4000, () => {
     console.log(`listening on *:${process.env.API_PORT || 4000}`)
