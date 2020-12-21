@@ -8,6 +8,6 @@ const app = express()
 const server = http.createServer(app)
 socketIOServer(server)
 
-server.listen(process.env.API_PORT, () => {
-  console.log(`listening on *:${process.env.API_PORT}`)
+server.listen(process.env.API_PORT || 4000, () => {
+  console.log(`listening on *:${process.env.API_PORT || 4000}`)
 })
