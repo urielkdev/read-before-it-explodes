@@ -4,6 +4,8 @@
 yarn
 ```
 
+* Setup database settings inside `ormconfig.json` file
+
 ## Run
 ```
 yarn dev
