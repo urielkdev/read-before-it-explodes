@@ -8,6 +8,7 @@ import { buildSchema } from 'type-graphql'
 import { createConnection } from "typeorm"
 
 import { HelloWorldResolver } from './resolvers/HelloWorldResolver'
+import { TestResolver } from './resolvers/TestResolver'
 
 (async () => {
   dotenv.config()
@@ -19,7 +20,7 @@ import { HelloWorldResolver } from './resolvers/HelloWorldResolver'
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [HelloWorldResolver]
+      resolvers: [HelloWorldResolver, TestResolver]
     }),
     context: ({ req, res }) => ({ req, res })
   })
