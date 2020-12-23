@@ -11,4 +11,9 @@ export class UserResolver {
     await User.insert({ username })
     return true
   }
+
+  @Query(() => [User])
+  async getUsers() {
+    return await User.find()
+  }
 }
